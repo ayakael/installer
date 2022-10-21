@@ -135,6 +135,13 @@
         <RelativeLayoutPath>packs/%(PackageName)/%(PackageVersion)</RelativeLayoutPath>
       </BundledLayoutPackage>
 
+      <BundledLayoutPackage Include="MicrosoftNetCoreAppRuntimePackNupkg">
+        <PackageName>Microsoft.NETCore.App.Runtime.$(SharedFrameworkRid)</PackageName>
+        <PackageVersion>$(MicrosoftNETCoreAppRefPackageVersion)</PackageVersion>
+        <TargetFramework>$(TargetFramework)</TargetFramework>
+        <RelativeLayoutPath>packs/%(PackageName)/%(PackageVersion)</RelativeLayoutPath>
+      </BundledLayoutPackage>
+
       <BundledLayoutPackage Include="MicrosoftNetStandardTargetingPackNupkg">
         <PackageName>NETStandard.Library.Ref</PackageName>
         <PackageVersion>$(NETStandardLibraryRefPackageVersion)</PackageVersion>
@@ -144,6 +151,13 @@
 
       <BundledLayoutPackage Include="MicrosoftAspNetCoreAppTargetingPackNupkg">
         <PackageName>Microsoft.AspNetCore.App.Ref</PackageName>
+        <PackageVersion>$(MicrosoftAspNetCoreAppRefPackageVersion)</PackageVersion>
+        <TargetFramework>$(TargetFramework)</TargetFramework>
+        <RelativeLayoutPath>packs/%(PackageName)/%(PackageVersion)</RelativeLayoutPath>
+      </BundledLayoutPackage>
+
+      <BundledLayoutPackage Include="MicrosoftAspNetCoreAppRuntimePackNupkg">
+        <PackageName>Microsoft.AspNetCore.App.Runtime.$(SharedFrameworkRid)</PackageName>
         <PackageVersion>$(MicrosoftAspNetCoreAppRefPackageVersion)</PackageVersion>
         <TargetFramework>$(TargetFramework)</TargetFramework>
         <RelativeLayoutPath>packs/%(PackageName)/%(PackageVersion)</RelativeLayoutPath>
