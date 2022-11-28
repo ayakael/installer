@@ -6,6 +6,7 @@
     <BuildCommandArgs>$(BuildCommandArgs) $(FlagParameterPrefix)nodereuse $(ArcadeFalseBoolBuildArg)</BuildCommandArgs>
     <BuildCommandArgs>$(BuildCommandArgs) /p:PackageProjectUrl=https://github.com/dotnet/sdk</BuildCommandArgs>
     <BuildCommandArgs>$(BuildCommandArgs) /p:PublishCompressedFilesPathPrefix=$(SourceBuiltToolsetDir)</BuildCommandArgs>
+	<BuildCommandArgs Condition="'$(BuildArchitecture)' == 'arm'">$(BuildCommandArgs) /p:NativeAotSupported=false</BuildCommandArgs>
 
     <!-- Just like mono, arm does not support NativeAot -->
     <BuildCommandArgs Condition="'$(BuildArchitecture)' == 'arm'">$(BuildCommandArgs) /p:NativeAotSupported=false</BuildCommandArgs>
