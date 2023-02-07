@@ -5,7 +5,11 @@ stages:
 prepare:release:
   stage: prepare
   rules:
-    - if: $CI_COMMIT_TAG
+    - if: '$CI_COMMIT_TAG == "*7.0*"'
+      when: always
+    - if: '$CI_COMMIT_TAG == "*6.0*"'
+      when: always
+    - when: never
   before_script:
     - echo "setting build environment"
     - sudo apk update
