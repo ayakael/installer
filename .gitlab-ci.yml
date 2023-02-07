@@ -12,7 +12,7 @@ release_job:
     - sudo apk add dotnet7-sdk
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
-    - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true
+    - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true /p:EnableSourceLink=false
   artifacts:
     when: always
     paths:
