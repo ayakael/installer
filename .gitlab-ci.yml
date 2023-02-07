@@ -6,6 +6,10 @@ release_job:
   script:
     - export EXTRA_DESCRIPTION="some message"
     - export TAG="$(git describe --tag)"
+    - echo "setting build environment"
+    - apk update
+    - apk upgrade
+    - apk add dotnet7-sdk
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true
