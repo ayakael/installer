@@ -13,10 +13,11 @@ release_job:
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true /p:EnableSourceLink=false
+    - gzip -cd artifacts/packages/*/*/dotnet-*.tar.gz | xz -T0 -9 -vv -e -c > artifacts/dotnet-tarball.tar.xz
   artifacts:
     when: always
     paths:
-      - artifacts/packages/
+      - artifacts/dotnet*.tar.xz
   release:
     name: 'Release $TAG'
     description: 'Created using the release-cli $EXTRA_DESCRIPTION'  # $EXTRA_DESCRIPTION and the $TAG
