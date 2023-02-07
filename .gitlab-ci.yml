@@ -8,7 +8,7 @@ release_job:
     - export TAG="$(git describe --tag)"
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
-    -	sed -i 's|https://github.com|https://lab.ilot.io|' eng/Version.Details.xml
+    - sed -i 's|https://github.com|https://lab.ilot.io|' eng/Version.Details.xml
     - sed -i 's|https://dev.azure.com/dnceng/internal/_git/dotnet-|https://lab.ilot.io/dotnet/|' eng/Version.Details.xml
     - sed -i 's|Microsoft/ApplicationInsights-dotnet|dotnet/application-insights|' eng/Version.Details.xml
     - sed -i 's|microsoft/vstest|dotnet/vstest|' eng/Version.Details.xml
