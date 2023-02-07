@@ -15,12 +15,12 @@ release_job:
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true /p:EnableSourceLink=false
-    - gzip -cd artifacts/packages/*/*/dotnet-*.tar.gz | xz -T0 -9 -vv -e -c > dotnet-$GIT_COMMIT_TAG.tar.xz
+    - gzip -cd artifacts/packages/*/*/dotnet-*.tar.gz | xz -T0 -9 -vv -e -c > dotnet-$CI_COMMIT_TAG.tar.xz
   artifacts:
     paths:
-      - dotnet-$GIT_COMMIT_TAG.tar.xz
+      - dotnet-$CI_COMMIT_TAG.tar.xz
   release:
-    name: 'Release $GIT_COMMIT_TAG'
+    name: 'Release $CI_COMMIT_TAG'
     description: 'Created using the release-cli'  # $EXTRA_DESCRIPTION and the $TAG
     tag_name: '$CI_COMMIT_TAG'                                                # variables must be defined elsewhere
     ref: '$CI_COMMIT_SHA'                                            # in the pipeline. For example, in the
