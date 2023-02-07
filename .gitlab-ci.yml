@@ -9,7 +9,7 @@ release_job:
     - echo "setting build environment"
     - sudo apk update
     - sudo apk upgrade
-    - sudo apk add dotnet7-sdk
+    - sudo apk add dotnet7-sdk xz gunzip
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true /p:EnableSourceLink=false
