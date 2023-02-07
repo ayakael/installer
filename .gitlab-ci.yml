@@ -8,10 +8,15 @@ release_job:
     - export TAG="$(git describe --tag)"
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
+    -	sed -i 's|https://github.com|https://lab.ilot.io|' eng/Version.Details.xml
+    - sed -i 's|https://dev.azure.com/dnceng/internal/_git/dotnet-|https://lab.ilot.io/dotnet/|' eng/Version.Details.xml
+    - sed -i 's|Microsoft/ApplicationInsights-dotnet|dotnet/application-insights|' eng/Version.Details.xml
+    - sed -i 's|microsoft/vstest|dotnet/vstest|' eng/Version.Details.xml
+    - sed -i 's|nuget/nuget.client|dotnet/nuget-client|' eng/Version.Details.xml
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true
   artifacts:
     paths:
-      - tarball/
+      - artifacts/packages/
   release:
     name: 'Release $TAG'
     description: 'Created using the release-cli $EXTRA_DESCRIPTION'  # $EXTRA_DESCRIPTION and the $TAG
