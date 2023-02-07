@@ -29,6 +29,7 @@ prepare:release:
 create:release:
   stage: release
   needs:
+    - if: $CI_COMMIT_TAG
     - job: prepare:release
       artifacts: true
   script:
@@ -41,5 +42,6 @@ create:release:
     ref: '$CI_COMMIT_SHA'
     assets:
       links:
-        - name: "dotnet-$CI_COMMIT_TAG.tar.gz"
-          url: "https://lab.ilot.io/dotnet/install/-/jobs/$JOB_ID/artifacts/download"
+        - name: "Tarball (tar.xz)"
+          filepath: "/tarball/dotnet-$CI_COMMIT_TAG.tar.xz"
+          url: "https://lab.ilot.io/dotnet/installer/-/jobs/$JOB_ID/artifacts/file/dotnet-$CI_COMMIT_TAG.tar.xz"
