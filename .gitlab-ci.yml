@@ -1,0 +1,21 @@
+stages: 
+  - release
+
+release_job:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - export EXTRA_DESCRIPTION="some message"
+    - export TAG="$(git describe --tag)"
+    - export _cli_root=/usr/lib/dotnet
+    - echo "running release_job for $TAG"
+    - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true /p:TarballFilePath=./tarball/tarball
+  artifacts:
+    paths:
+       tarball/
+  release:
+    name: 'Release $TAG'
+    description: 'Created using the release-cli $EXTRA_DESCRIPTION'  # $EXTRA_DESCRIPTION and the $TAG
+    tag_name: '$TAG'                                                 # variables must be defined elsewhere
+    ref: '$CI_COMMIT_SHA'                                            # in the pipeline. For example, in the
