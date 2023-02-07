@@ -14,6 +14,7 @@ release_job:
     - echo "running release_job for $TAG"
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true
   artifacts:
+    when: always
     paths:
       - artifacts/packages/
   release:
