@@ -15,7 +15,7 @@ prepare:release:
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true /p:EnableSourceLink=false
-    - gzip -cd artifacts/packages/*/*/dotnet-*.tar.gz | xz -T0 -9 -vv -e -c > dotnet-$CI_COMMIT_TAG.tar.xz
+    - gzip -cd artifacts/packages/*/*/dotnet-*.tar.gz | xz -T0 -9 -vv -c > dotnet-$CI_COMMIT_TAG.tar.xz
   after_script:
     - echo "JOB_ID=$CI_JOB_ID" > job.env
   artifacts:
@@ -45,4 +45,4 @@ create:release:
       links:
         - name: "Tarball (tar.xz)"
           filepath: "/tarball/dotnet-$CI_COMMIT_TAG.tar.xz"
-          url: "https://lab.ilot.io/dotnet/installer/-/jobs/$JOB_ID/artifacts/file/dotnet-$CI_COMMIT_TAG.tar.xz"
+          url: "https://lab.ilot.io/dotnet/installer/-/jobs/$JOB_ID/artifacts/raw/dotnet-$CI_COMMIT_TAG.tar.xz"
