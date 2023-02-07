@@ -1,26 +1,45 @@
 stages: 
+  - prepare
   - release
 
-release_job:
-  stage: release
+prepare:release:
+  stage: prepare
   rules:
-    - if: $CI_COMMIT_TAG                 # Run this job when a tag is created
-  script:
-    - export EXTRA_DESCRIPTION="some message"
-    - export TAG="$(git describe --tag)"
+    - if: $CI_COMMIT_TAG
+  before_script:
     - echo "setting build environment"
     - sudo apk update
     - sudo apk upgrade
     - sudo apk add dotnet7-sdk xz gzip
+  script:
     - export _cli_root=/usr/lib/dotnet
     - echo "running release_job for $TAG"
     - _InitializeDotNetCli="$_cli_root" DOTNET_INSTALL_DIR="$_cli_root" DotNetBuildFromSource=true ./build.sh /p:ArcadeBuildTarball=true /p:EnableSourceLink=false
     - gzip -cd artifacts/packages/*/*/dotnet-*.tar.gz | xz -T0 -9 -vv -e -c > dotnet-$CI_COMMIT_TAG.tar.xz
+  after_script:
+    - echo "JOB_ID=$CI_JOB_ID" > job.env
   artifacts:
     paths:
       - dotnet-$CI_COMMIT_TAG.tar.xz
+    expire_in: never
+    reports:
+      dotenv: job.env
+
+
+create:release:
+  stage: release
+  needs:
+    - job: prepare:release
+      artifacts: true
+  script:
+    - echo "Create Release $GI_COMMIT_TAG"
+    - echo $JOB_ID
   release:
     name: 'Release $CI_COMMIT_TAG'
-    description: 'Created using the release-cli'  # $EXTRA_DESCRIPTION and the $TAG
-    tag_name: '$CI_COMMIT_TAG'                                                # variables must be defined elsewhere
-    ref: '$CI_COMMIT_SHA'                                            # in the pipeline. For example, in the
+    description: 'Release $CI_COMMIT_TAG'
+    tag_name: '$CI_COMMIT_TAG'
+    ref: '$CI_COMMIT_SHA'
+    assets:
+      links:
+        -name: "dotnet-$CI_COMMIT_TAG.tar.gz"
+         url: "https://lab.ilot.io/dotnet/install/-/jobs/$JOB_ID/artifacts/download"
